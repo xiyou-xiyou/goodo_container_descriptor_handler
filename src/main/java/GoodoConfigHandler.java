@@ -1,4 +1,5 @@
 import classloader.GoodoClassLoader;
+import classloader.JarFileReader;
 import extern.ExternCarrier;
 import org.apache.maven.plugins.assembly.filter.ContainerDescriptorHandler;
 import org.apache.maven.plugins.assembly.utils.AssemblyFileUtils;
@@ -30,6 +31,11 @@ public class GoodoConfigHandler implements ContainerDescriptorHandler {
      * 方法描述符号
      */
     private static final Map<String, String> paramsDescriptor;
+
+    /**
+     * 所有的jar包路径
+     */
+    private static final List<JarFileReader> jarList = new ArrayList<>();
 
     /**
      * extern
@@ -176,7 +182,7 @@ public class GoodoConfigHandler implements ContainerDescriptorHandler {
                     File path = plexusIoFileResource.getFile();
                     String pathString = path.getPath();
                     String classPath = fileInfo.getName();
-                    goodoClassLoader = new GoodoClassLoader(getClassPath(pathString, classPath), this.getClass().getClassLoader());
+                    goodoClassLoader = new GoodoClassLoader(getClassPath(pathString, classPath), this.getClass().getClassLoader(), jarList);
                 } else
                     throw new RuntimeException("File type unable to distinguish :" + fileInfo.getClass().getName());
             }
@@ -185,7 +191,14 @@ public class GoodoConfigHandler implements ContainerDescriptorHandler {
             goodoClassLoader.findClass(className);
             doExternProcessor(className);
             return false;
-        } else return fileInfo.isFile() && (name.endsWith(".do") || name.endsWith(".jar"));
+        } else if (fileInfo.isFile() && name.endsWith(".do")) {
+            return true;
+        } else if (fileInfo.isFile() && name.endsWith(".jar")) {
+            jarList.add(new JarFileReader(fileInfo.getContents()));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private List<String> readLines(FileInfo fileInfo) throws IOException {
