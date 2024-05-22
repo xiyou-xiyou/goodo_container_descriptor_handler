@@ -1,0 +1,11 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.apache.maven.plugins.assembly.filter.ContainerDescriptorHandler</role>
+      <role-hint>custom</role-hint>
+      <implementation>GoodoConfigHandler</implementation>
+      <description></description>
+      <isolated-realm>false</isolated-realm>
+    </component>
+  </components>
+</component-set>
