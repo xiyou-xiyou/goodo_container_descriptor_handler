@@ -53,7 +53,7 @@ public class GoodoClassLoader extends ClassLoader {
     private byte[] getClassBytes(String path) {
         try (InputStream fis = Files.newInputStream(Paths.get(path)); ByteArrayOutputStream classBytes = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
-            int len = 0;
+            int len;
             while ((len = fis.read(buffer)) != -1) {
                 classBytes.write(buffer, 0, len);
             }

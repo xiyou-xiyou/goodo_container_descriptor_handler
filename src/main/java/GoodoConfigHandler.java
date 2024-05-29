@@ -275,7 +275,12 @@ public class GoodoConfigHandler implements ContainerDescriptorHandler {
             if (notArrayParam.length() == 1) {
                 paramField = new StringBuilder(paramsDescriptor.get(notArrayParam));
             } else {
-                paramField = new StringBuilder(notArrayParam);
+                if (arrayCount == 0) {
+                    paramField = new StringBuilder(notArrayParam);
+                } else {
+                    String descriptorNotArrayByObject = ExternUtil.descriptorNotArrayByObject(notArrayParam);
+                    paramField = new StringBuilder(descriptorNotArrayByObject);
+                }
             }
 
             // 添加维度特写

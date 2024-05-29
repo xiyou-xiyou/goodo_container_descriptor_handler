@@ -32,11 +32,9 @@ public class JarFileReader {
     private void copyInputStream(InputStream in, String entryName) throws IOException {
         if (!entriesStreamMap.containsKey(entryName)) {
             ByteArrayOutputStream _copy = new ByteArrayOutputStream();
-            int read = 0;
-            int chunk = 0;
+            int chunk;
             byte[] data = new byte[256];
             while (-1 != (chunk = in.read(data))) {
-                read += data.length;
                 _copy.write(data, 0, chunk);
             }
             entriesStreamMap.put(entryName, _copy.toByteArray());

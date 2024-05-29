@@ -27,8 +27,17 @@ public class ExternUtil {
      */
     public static String descriptorNotArray(String descriptor) {
         String replace = descriptor.replace(";", "");
-        int length = replace.length();
         return replace.replace("[", "");
+    }
+
+    /**
+     * 去除数组Object的符号位
+     *
+     * @param descriptor 当前的描述符
+     * @return 无符号位描述符
+     */
+    public static String descriptorNotArrayByObject(String descriptor) {
+        return descriptor.substring(1);
     }
 
     /**
